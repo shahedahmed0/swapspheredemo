@@ -51,6 +51,7 @@ app.use('/api/swaps', require('./routes/swapRoutes'));
 app.use('/api/disputes', require('./routes/disputes'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/export', require('./routes/export'));
+app.use('/api/stats', require('./routes/stats'));
 
 const http = require('http');
 const { Server } = require('socket.io');

@@ -14,10 +14,10 @@ const Services = () => {
           
           <div className="col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-collection icon flex-shrink-0"></i>
+              <i className="bi bi-shop icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/inventory" className="stretched-link">Personal Vault</Link></h4>
-                <p className="description">Catalog your entire collection with high-quality photos, condition reports, and rarity tags to show fellow collectors what you have.</p>
+                <h4 className="title"><Link to="/marketplace" className="stretched-link">Marketplace Discovery</Link></h4>
+                <p className="description">Browse listings with search and filters for category, location, tags, and availability.</p>
               </div>
             </div>
           </div>
@@ -26,18 +26,18 @@ const Services = () => {
             <div className="service-item d-flex position-relative h-100">
               <i className="bi bi-arrow-left-right icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/swaps" className="stretched-link">Smart Swap Requests</Link></h4>
-                <p className="description">Send and receive 1-on-1 swap proposals. Our system tracks negotiations and helps finalize the deal securely.</p>
+                <h4 className="title"><Link to="/my-requests" className="stretched-link">Swap Requests</Link></h4>
+                <p className="description">Send swap proposals and manage incoming requests with realtime notifications.</p>
               </div>
             </div>
           </div>
 
           <div className="col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-search icon flex-shrink-0"></i>
+              <i className="bi bi-stars icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/marketplace" className="stretched-link">Advanced Discovery</Link></h4>
-                <p className="description">Use powerful filters to search by hobby niche, item condition, or geographical location to find local traders.</p>
+                <h4 className="title"><Link to="/marketplace" className="stretched-link">Smart Match Suggestions</Link></h4>
+                <p className="description">Get item suggestions based on your wishlist, so you can find better matches faster.</p>
               </div>
             </div>
           </div>
@@ -46,8 +46,8 @@ const Services = () => {
             <div className="service-item d-flex position-relative h-100">
               <i className="bi bi-person-badge icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/reputation" className="stretched-link">Collector Reputation</Link></h4>
-                <p className="description">Build trust within the community through our rating system. Verified successful swaps increase your collector score.</p>
+                <h4 className="title"><Link to="/transaction-history" className="stretched-link">Reputation & Reviews</Link></h4>
+                <p className="description">Complete swaps and leave reviews to grow karma and build trust in your niche.</p>
               </div>
             </div>
           </div>
@@ -56,18 +56,18 @@ const Services = () => {
             <div className="service-item d-flex position-relative h-100">
               <i className="bi bi-bell icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/alerts" className="stretched-link">Wishlist Notifications</Link></h4>
-                <p className="description">Add rare items to your wishlist and get notified the moment another hobbyist lists them for trade.</p>
+                <h4 className="title"><Link to="/wishlist" className="stretched-link">Wishlist</Link></h4>
+                <p className="description">Save items you want and use it to power Smart Match recommendations.</p>
               </div>
             </div>
           </div>
 
           <div className="col-md-6" data-aos="fade-up" data-aos-delay="600">
             <div className="service-item d-flex position-relative h-100">
-              <i className="bi bi-chat-quote icon flex-shrink-0"></i>
+              <i className="bi bi-file-earmark-arrow-down icon flex-shrink-0"></i>
               <div>
-                <h4 className="title"><Link to="/messages" className="stretched-link">Secure Messaging</Link></h4>
-                <p className="description">Discuss item details and coordinate swap logistics directly with other users through our integrated chat system.</p>
+                <h4 className="title"><Link to="/export" className="stretched-link">Inventory Export</Link></h4>
+                <p className="description">Export your private collection and transaction history to CSV or PDF.</p>
               </div>
             </div>
           </div>

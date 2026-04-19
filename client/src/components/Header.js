@@ -70,6 +70,13 @@ const Header = ({ isAuthenticated, userProfile }) => {
   }, [location.pathname]);
 
   useEffect(() => {
+    document.body.classList.toggle('mobile-nav-active', mobileOpen);
+    return () => {
+      document.body.classList.remove('mobile-nav-active');
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
     const headerEl = document.getElementById('header');
     if (!headerEl) return;
 
@@ -163,73 +170,82 @@ const Header = ({ isAuthenticated, userProfile }) => {
         </div>
       }
 
-      <nav className="navbar navbar-expand-xl w-100">
-        <div className="container-fluid container-xl">
-          <Link to="/" className="navbar-brand d-flex align-items-center gap-2">
-            <span className="fw-bold">SwapSphere</span>
-          </Link>
+      <div className="container-fluid container-xl position-relative d-flex align-items-center">
+        <Link to="/" className="logo d-flex align-items-center me-auto">
+          <h1 className="sitename">SwapSphere</h1>
+        </Link>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            aria-controls="ssNavbar"
-            aria-expanded={mobileOpen}
-            aria-label="Toggle navigation"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        <i
+          className={`mobile-nav-toggle d-xl-none bi ${mobileOpen ? 'bi-x' : 'bi-list'}`}
+          role="button"
+          tabIndex={0}
+          aria-label="Toggle navigation"
+          onClick={() => setMobileOpen((v) => !v)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') setMobileOpen((v) => !v);
+          }}
+        />
 
-          <div className={`collapse navbar-collapse ${mobileOpen ? 'show' : ''}`} id="ssNavbar">
-            <ul className="navbar-nav me-auto mb-2 mb-xl-0 flex-wrap">
-              <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/how-it-works">How it works</Link></li>
+        <nav id="navmenu" className="navmenu">
+          <ul>
+            <li><Link to="/" onClick={() => setMobileOpen(false)}>Home</Link></li>
+            <li><Link to="/how-it-works" onClick={() => setMobileOpen(false)}>How it works</Link></li>
 
-              {isAuthenticated &&
-              <>
-                  <li className="nav-item"><Link className="nav-link" to="/marketplace">Marketplace</Link></li>
-                  <li className="nav-item"><Link className="nav-link" to="/create-listing">List an Item</Link></li>
-                  <li className="nav-item"><Link className="nav-link" to="/wishlist">Wishlist</Link></li>
-                  <li className="nav-item"><Link className="nav-link" to="/my-requests">Incoming Requests</Link></li>
-                  <li className="nav-item"><Link className="nav-link" to="/transaction-history">History & Reviews</Link></li>
-                  <li className="nav-item"><Link className="nav-link" to="/export">Export</Link></li>
-                  <li className="nav-item" style={{ position: 'relative' }}>
-                    <Link className="nav-link" to="/negotiate/active">
-                      My Negotiations
-                      {unreadCount > 0 &&
-                      <span className="badge bg-danger ms-2 align-text-top">{unreadCount}</span>
-                      }
-                    </Link>
-                  </li>
-                  {userProfile?.isAdmin &&
-                  <li className="nav-item"><Link className="nav-link" to="/admin/disputes">Admin Disputes</Link></li>
-                  }
-                </>
-              }
-
-              <li className="nav-item"><a className="nav-link" href="/#about">About</a></li>
-              <li className="nav-item"><a className="nav-link" href="/#services">Services</a></li>
-            </ul>
-
-            {isAuthenticated && userProfile &&
-            <div className="d-none d-xl-flex align-items-center gap-2 me-3">
-                <span className="small text-muted">Signed in as</span>
-                <span className="fw-semibold">{userProfile.username}</span>
-                <HobbyBadge niche={userProfile.hobbyNiche} />
-              </div>
+            {isAuthenticated &&
+            <>
+                <li><Link to="/marketplace" onClick={() => setMobileOpen(false)}>Marketplace</Link></li>
+                <li><Link to="/create-listing" onClick={() => setMobileOpen(false)}>List an Item</Link></li>
+                <li><Link to="/wishlist" onClick={() => setMobileOpen(false)}>Wishlist</Link></li>
+                <li><Link to="/my-requests" onClick={() => setMobileOpen(false)}>Incoming Requests</Link></li>
+                <li><Link to="/transaction-history" onClick={() => setMobileOpen(false)}>History & Reviews</Link></li>
+                <li><Link to="/export" onClick={() => setMobileOpen(false)}>Export</Link></li>
+                <li style={{ position: 'relative' }}>
+                  <Link to="/negotiate/active" onClick={() => setMobileOpen(false)}>
+                    My Negotiations
+                    {unreadCount > 0 &&
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        right: '-10px',
+                        background: 'red',
+                        color: 'white',
+                        borderRadius: '50%',
+                        padding: '2px 6px',
+                        fontSize: '12px'
+                      }}>
+                      {unreadCount}</span>
+                    }
+                  </Link>
+                </li>
+                {userProfile?.isAdmin &&
+                <li><Link to="/admin/disputes" onClick={() => setMobileOpen(false)}>Admin Disputes</Link></li>
+                }
+              </>
             }
 
-            {!isAuthenticated ?
-            <Link className="btn btn-primary" to="/login">
-                Start Swapping
-              </Link> :
-            <button className="btn btn-outline-secondary" onClick={handleLogout}>
-                Logout
-              </button>
-            }
+            <li><a href="/#about" onClick={() => setMobileOpen(false)}>About</a></li>
+            <li><a href="/#services" onClick={() => setMobileOpen(false)}>Services</a></li>
+          </ul>
+        </nav>
+
+        {isAuthenticated && userProfile &&
+        <div className="d-none d-xl-flex align-items-center me-3 gap-2">
+            <span className="small text-muted">Signed in as</span>
+            <span className="fw-semibold">{userProfile.username}</span>
+            <HobbyBadge niche={userProfile.hobbyNiche} />
           </div>
-        </div>
-      </nav>
+        }
+
+        {!isAuthenticated ?
+        <Link className="btn-getstarted ms-3" to="/login" style={{ marginLeft: '25px' }}>
+            Start Swapping
+          </Link> :
+        <button className="btn-getstarted ms-3" onClick={handleLogout} style={{ marginLeft: '25px', border: 'none' }}>
+            Logout
+          </button>
+        }
+      </div>
     </header>);
 
 };

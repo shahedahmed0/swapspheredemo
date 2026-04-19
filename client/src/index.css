@@ -76,10 +76,15 @@ code {
 }
 
 /* Header: prevent nav overflow; allow conventional collapse */
-.header .navbar-nav {
-  max-width: 100%;
-}
+@media (min-width: 1200px) {
+  /* Too many links can overflow; allow wrapping on large screens. */
+  .header .navmenu ul {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
 
-.header .navbar-nav .nav-link {
-  white-space: nowrap;
+  .header .navmenu a,
+  .header .navmenu a:focus {
+    padding: 12px 10px;
+  }
 }
