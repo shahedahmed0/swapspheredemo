@@ -74,3 +74,12 @@ code {
   display: inline-flex;
   align-items: center;
 }
+
+/* Header: prevent nav overflow; allow conventional collapse */
+.header .navbar-nav {
+  max-width: 100%;
+}
+
+.header .navbar-nav .nav-link {
+  white-space: nowrap;
+}

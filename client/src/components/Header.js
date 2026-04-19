@@ -11,6 +11,7 @@ const Header = ({ isAuthenticated, userProfile }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [darkText, setDarkText] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
 
   useEffect(() => {
@@ -38,9 +39,6 @@ const Header = ({ isAuthenticated, userProfile }) => {
     const newSocket = io.connect(API_BASE_URL);
 
     const onNotification = (data) => {
-
-      if (!currentUserId || data.userId === currentUserId) return;
-
       const notificationId = Date.now();
       const notificationWithId = { ...data, id: notificationId };
       setNotifications((prev) => [notificationWithId, ...prev]);
@@ -51,6 +49,9 @@ const Header = ({ isAuthenticated, userProfile }) => {
     };
 
     newSocket.on('new_notification', onNotification);
+    if (currentUserId) {
+      newSocket.emit('register_user', { userId: currentUserId });
+    }
     return () => {
       newSocket.off('new_notification', onNotification);
       newSocket.disconnect();
@@ -62,6 +63,10 @@ const Header = ({ isAuthenticated, userProfile }) => {
     if (location.pathname.startsWith('/negotiate')) {
       setUnreadCount(0);
     }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setMobileOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -137,7 +142,15 @@ const Header = ({ isAuthenticated, userProfile }) => {
           style={{ cursor: notif.swapId ? 'pointer' : 'default' }}
           onClick={() => handleNotificationClick(notif.swapId)}>
           
-              <strong>💬 New Message:</strong> {notif.message}
+              <strong>
+                {notif.type === 'swap_request' ? '🔁 Swap request' :
+                notif.type === 'swap_accepted' ? '✅ Swap accepted' :
+                notif.type === 'dispute_created' ? '⚠️ New dispute' :
+                notif.type === 'dispute_updated' ? '🛠️ Dispute updated' :
+                '🔔 Notification'}
+                :
+              </strong>{' '}
+              {notif.message}
               <button
             onClick={(e) => {
               e.stopPropagation();
@@ -150,68 +163,73 @@ const Header = ({ isAuthenticated, userProfile }) => {
         </div>
       }
 
-      <div className="container-fluid container-xl position-relative d-flex align-items-center">
-        <Link to="/" className="logo d-flex align-items-center me-auto">
-          <h1 className="sitename">SwapSphere</h1>
-        </Link>
-        {isAuthenticated && userProfile &&
-        <div className="d-none d-lg-flex align-items-center me-3 gap-2">
-            <span className="small text-muted">Signed in as</span>
-            <span className="fw-semibold">{userProfile.username}</span>
-            <HobbyBadge niche={userProfile.hobbyNiche} />
-          </div>
-        }
+      <nav className="navbar navbar-expand-xl w-100">
+        <div className="container-fluid container-xl">
+          <Link to="/" className="navbar-brand d-flex align-items-center gap-2">
+            <span className="fw-bold">SwapSphere</span>
+          </Link>
 
-        <nav id="navmenu" className="navmenu">
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            
-            {isAuthenticated &&
-            <>
-                <li><Link to="/marketplace">Marketplace</Link></li>
-                <li><Link to="/create-listing">List an Item</Link></li>
-                <li><Link to="/wishlist">Wishlist</Link></li>
-                <li><Link to="/my-requests">Incoming Requests</Link></li>
-                <li><Link to="/transaction-history">History & Reviews</Link></li>
-                <li><Link to="/export">Export</Link></li>
-                <li style={{ position: 'relative' }}>
-                  <Link to="/negotiate/active">My Negotiations</Link>
-                  {unreadCount > 0 &&
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '-5px',
-                    right: '-10px',
-                    background: 'red',
-                    color: 'white',
-                    borderRadius: '50%',
-                    padding: '2px 6px',
-                    fontSize: '12px'
-                  }}>
-                  {unreadCount}</span>
-                }
-                </li>
-                {userProfile?.isAdmin &&
-                <li><Link to="/admin/disputes">Admin Disputes</Link></li>
-                }
-              </>
-            }
-            
-            <li><Link to="/#about">About</Link></li>
-            <li><Link to="/#services">Services</Link></li>
-          </ul>
-        </nav>
-
-        {!isAuthenticated ?
-        <Link className="btn-getstarted ms-3" to="/login" style={{ marginLeft: '25px' }}>
-            Start Swapping
-          </Link> :
-
-        <button className="btn-getstarted ms-3" onClick={handleLogout} style={{ marginLeft: '25px', border: 'none' }}>
-            Logout
+          <button
+            className="navbar-toggler"
+            type="button"
+            aria-controls="ssNavbar"
+            aria-expanded={mobileOpen}
+            aria-label="Toggle navigation"
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            <span className="navbar-toggler-icon"></span>
           </button>
-        }
-      </div>
+
+          <div className={`collapse navbar-collapse ${mobileOpen ? 'show' : ''}`} id="ssNavbar">
+            <ul className="navbar-nav me-auto mb-2 mb-xl-0 flex-wrap">
+              <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/how-it-works">How it works</Link></li>
+
+              {isAuthenticated &&
+              <>
+                  <li className="nav-item"><Link className="nav-link" to="/marketplace">Marketplace</Link></li>
+                  <li className="nav-item"><Link className="nav-link" to="/create-listing">List an Item</Link></li>
+                  <li className="nav-item"><Link className="nav-link" to="/wishlist">Wishlist</Link></li>
+                  <li className="nav-item"><Link className="nav-link" to="/my-requests">Incoming Requests</Link></li>
+                  <li className="nav-item"><Link className="nav-link" to="/transaction-history">History & Reviews</Link></li>
+                  <li className="nav-item"><Link className="nav-link" to="/export">Export</Link></li>
+                  <li className="nav-item" style={{ position: 'relative' }}>
+                    <Link className="nav-link" to="/negotiate/active">
+                      My Negotiations
+                      {unreadCount > 0 &&
+                      <span className="badge bg-danger ms-2 align-text-top">{unreadCount}</span>
+                      }
+                    </Link>
+                  </li>
+                  {userProfile?.isAdmin &&
+                  <li className="nav-item"><Link className="nav-link" to="/admin/disputes">Admin Disputes</Link></li>
+                  }
+                </>
+              }
+
+              <li className="nav-item"><a className="nav-link" href="/#about">About</a></li>
+              <li className="nav-item"><a className="nav-link" href="/#services">Services</a></li>
+            </ul>
+
+            {isAuthenticated && userProfile &&
+            <div className="d-none d-xl-flex align-items-center gap-2 me-3">
+                <span className="small text-muted">Signed in as</span>
+                <span className="fw-semibold">{userProfile.username}</span>
+                <HobbyBadge niche={userProfile.hobbyNiche} />
+              </div>
+            }
+
+            {!isAuthenticated ?
+            <Link className="btn btn-primary" to="/login">
+                Start Swapping
+              </Link> :
+            <button className="btn btn-outline-secondary" onClick={handleLogout}>
+                Logout
+              </button>
+            }
+          </div>
+        </div>
+      </nav>
     </header>);
 
 };

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Dispute = require('../models/Dispute');
+const User = require('../models/User');
 
 // Create a dispute / report
 router.post('/', auth, async (req, res) => {
@@ -22,6 +23,19 @@ router.post('/', auth, async (req, res) => {
       details: details ? String(details).trim() : ''
     });
     await dispute.save();
+
+    // Notify admins in realtime.
+    const io = req.app && req.app.get ? req.app.get('io') : null;
+    if (io) {
+      const admins = await User.find({ isAdmin: true }).select('_id');
+      admins.forEach((a) => {
+        io.to(`user:${a._id}`).emit('new_notification', {
+          type: 'dispute_created',
+          message: 'New dispute/report submitted.',
+          disputeId: dispute._id
+        });
+      });
+    }
     res.status(201).json(dispute);
   } catch (err) {
     console.error('create dispute error', err);

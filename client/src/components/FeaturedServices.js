@@ -20,7 +20,7 @@ const FeaturedServices = () => {
             <div>
               <h4 className="title">Seamless Swapping</h4>
               <p className="description">Propose trades directly with other collectors. Our secure request system helps you track the exchange from start to finish.</p>
-              <a href="#how-it-works" className="readmore stretched-link"><span>How it Works</span><i className="bi bi-arrow-right"></i></a>
+              <a href="/how-it-works" className="readmore stretched-link"><span>How it Works</span><i className="bi bi-arrow-right"></i></a>
             </div>
           </div>
 

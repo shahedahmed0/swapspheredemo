@@ -31,6 +31,16 @@ router.put('/disputes/:id', auth, admin, async (req, res) => {
     if (typeof resolutionNote === 'string') dispute.resolutionNote = resolutionNote;
     dispute.resolvedBy = req.user.id;
     await dispute.save();
+
+    // Notify reporter.
+    const io = req.app && req.app.get ? req.app.get('io') : null;
+    if (io) {
+      io.to(`user:${dispute.createdBy}`).emit('new_notification', {
+        type: 'dispute_updated',
+        message: `Your dispute was updated to: ${dispute.status}.`,
+        disputeId: dispute._id
+      });
+    }
     res.json(dispute);
   } catch (err) {
     console.error('update dispute error', err);

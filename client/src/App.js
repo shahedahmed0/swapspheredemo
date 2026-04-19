@@ -23,6 +23,7 @@ import TransactionHistory from './components/swaps/TransactionHistory';
 import ProposeSwapPage from './components/swaps/ProposeSwapPage';
 import AdminDisputesPage from './components/admin/AdminDisputesPage.jsx';
 import ExportPage from './components/ExportPage.jsx';
+import HowItWorks from './components/HowItWorks.jsx';
 
 const LayoutWrapper = ({ children }) => {
   const location = useLocation();
@@ -99,6 +100,7 @@ function App() {
               path="/marketplace"
               element={<ItemGallery isAuthenticated={isAuthenticated} userId={dbUserId} />}
             />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 

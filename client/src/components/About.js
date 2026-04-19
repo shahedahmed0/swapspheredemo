@@ -30,7 +30,7 @@ const About = () => {
                 <span><strong>Sustainable Community:</strong> Promoting a circular economy by giving hobbyist items a second life through swapping rather than buying.</span>
               </li>
             </ul>
-            <a href="#how-it-works" className="read-more">
+            <a href="/how-it-works" className="read-more">
               <span>Our Vision</span><i className="bi bi-arrow-right"></i>
             </a>
           </div>

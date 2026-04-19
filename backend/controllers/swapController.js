@@ -70,6 +70,16 @@ exports.createSwapRequest = async (req, res) => {
     });
 
     await newSwap.save();
+
+    // Realtime notification to receiver.
+    const io = req.app && req.app.get ? req.app.get('io') : null;
+    if (io) {
+      io.to(`user:${receiverId}`).emit('new_notification', {
+        type: 'swap_request',
+        message: 'New swap request received.',
+        swapId: newSwap._id
+      });
+    }
     res.status(201).json({ message: 'Swap request sent successfully!', swap: newSwap });
   } catch (error) {
     console.error('createSwapRequest error', error);
@@ -145,6 +155,15 @@ exports.acceptSwap = async (req, res) => {
       { $set: { status: 'Rejected' } }
     );
 
+    // Realtime notification to requester.
+    const io = req.app && req.app.get ? req.app.get('io') : null;
+    if (io) {
+      io.to(`user:${swap.requester}`).emit('new_notification', {
+        type: 'swap_accepted',
+        message: 'Your swap request was accepted.',
+        swapId: swap._id
+      });
+    }
     res.status(200).json({ message: 'Swap accepted and items updated!', swap });
   } catch (error) {
     console.error('acceptSwap error', error);

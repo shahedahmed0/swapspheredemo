@@ -65,6 +65,9 @@ const io = new Server(server, {
   }
 });
 
+// Allow routes/controllers to emit realtime notifications.
+app.set('io', io);
+
 
 server.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);
@@ -84,6 +87,11 @@ io.on('connection', (socket) => {
 
 
   socket.join('notifications');
+
+  socket.on('register_user', ({ userId }) => {
+    if (!userId) return;
+    socket.join(`user:${userId}`);
+  });
 
   socket.on('join_chat', async (data) => {
     const { swapId } = data;
