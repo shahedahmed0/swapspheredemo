@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { apiUrl } from '../../config/api';
 
@@ -8,7 +8,7 @@ const AdminDisputesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -21,11 +21,11 @@ const AdminDisputesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   const updateStatus = async (id, status) => {
     try {

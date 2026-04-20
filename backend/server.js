@@ -66,7 +66,6 @@ const io = new Server(server, {
   }
 });
 
-// Allow routes/controllers to emit realtime notifications.
 app.set('io', io);
 
 

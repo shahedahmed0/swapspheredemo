@@ -71,7 +71,6 @@ exports.createSwapRequest = async (req, res) => {
 
     await newSwap.save();
 
-    // Realtime notification to receiver.
     const io = req.app && req.app.get ? req.app.get('io') : null;
     if (io) {
       io.to(`user:${receiverId}`).emit('new_notification', {
@@ -155,7 +154,6 @@ exports.acceptSwap = async (req, res) => {
       { $set: { status: 'Rejected' } }
     );
 
-    // Realtime notification to requester.
     const io = req.app && req.app.get ? req.app.get('io') : null;
     if (io) {
       io.to(`user:${swap.requester}`).emit('new_notification', {

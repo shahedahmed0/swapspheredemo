@@ -4,7 +4,7 @@ import ReviewForm from './ReviewForm';
 import { apiUrl } from '../../config/api';
 import HobbyBadge from '../HobbyBadge';
 
-const TransactionHistory = ({ userId }) => {
+const TransactionHistory = ({ userId, userProfile }) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reportingId, setReportingId] = useState('');
@@ -45,8 +45,52 @@ const TransactionHistory = ({ userId }) => {
   if (loading) return <div className="p-4 text-center">Loading transaction history...</div>;
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-4 text-center">Your Transaction History</h2>
+    <div className="container mt-4 pb-5">
+      <h2 className="mb-2 text-center">Your Transaction History</h2>
+      <p className="text-center text-muted mb-4">Completed swaps, reviews, and your community reputation.</p>
+
+      <div className="row justify-content-center mb-4">
+        <div className="col-lg-10">
+          <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div className="card-body p-4 p-md-5 text-center" style={{ background: '#0f172a', color: '#e5e7eb' }}>
+              <h3 className="h4 mb-3" style={{ color: '#f9fafb' }}>Reputation &amp; Karma</h3>
+              {userProfile ?
+              <>
+                  <p className="mb-3 mb-md-2">
+                    Your Karma reflects how trusted you are on SwapSphere. Earn points for great trades and fair reviews.
+                  </p>
+                  <div className="d-flex justify-content-center align-items-center gap-3 mt-3 flex-wrap">
+                    <div className="reputation-chip">
+                      <span>⭐ Rating:</span>
+                      <span>{userProfile.rating > 0 ? userProfile.rating.toFixed(1) : 'Unrated'}/5</span>
+                    </div>
+                    <div className="reputation-chip">
+                      <span>🔥 Karma:</span>
+                      <span>{userProfile.karmaPoints} pts</span>
+                    </div>
+                    <div className="reputation-chip">
+                      <span>✅ Reviews:</span>
+                      <span>{userProfile.reviewCount}</span>
+                    </div>
+                  </div>
+                  <p className="small mt-3 mb-0" style={{ color: '#94a3b8' }}>
+                    Strong ratings and Karma make your swap requests more attractive to other collectors.
+                  </p>
+                </> :
+
+              <>
+                  <p className="mb-2">
+                    Trade fairly, collect positive reviews, and grow your Karma to build trusted status in the community.
+                  </p>
+                  <p className="small mb-0" style={{ color: '#94a3b8' }}>
+                    Complete swaps from this page and leave honest reviews to grow your reputation.
+                  </p>
+                </>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
 
       {history.length === 0 ?
       <p className="text-center text-muted">

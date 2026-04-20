@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const FeaturedServices = () => {
   return (
@@ -11,7 +12,7 @@ const FeaturedServices = () => {
             <div>
               <h4 className="title">Easy Cataloging</h4>
               <p className="description">Quickly list your hobby items with specialized tags for condition, rarity, and category to show them off to the community.</p>
-              <a href="marketplace" className="readmore stretched-link"><span>View Listings</span><i className="bi bi-arrow-right"></i></a>
+              <Link to="/marketplace" className="readmore stretched-link"><span>View Listings</span><i className="bi bi-arrow-right"></i></Link>
             </div>
           </div>
 
@@ -29,7 +30,7 @@ const FeaturedServices = () => {
             <div>
               <h4 className="title">Trusted Community</h4>
               <p className="description">Trade with confidence. Build your reputation through successful swaps and verified reviews within your niche hobby.</p>
-              <a href="#safety" className="readmore stretched-link"><span>Safety Center</span><i className="bi bi-arrow-right"></i></a>
+              <Link to="/safety" className="readmore stretched-link"><span>Safety Center</span><i className="bi bi-arrow-right"></i></Link>
             </div>
           </div>
 

@@ -170,81 +170,103 @@ const Header = ({ isAuthenticated, userProfile }) => {
         </div>
       }
 
-      <div className="container-fluid container-xl position-relative d-flex align-items-center">
-        <Link to="/" className="logo d-flex align-items-center me-auto">
-          <h1 className="sitename">SwapSphere</h1>
-        </Link>
+      <div className="container-fluid container-xl header-inner position-relative d-flex align-items-center gap-2">
+        <div className="header-brand-cluster d-flex align-items-center flex-shrink-0 gap-2 gap-xl-3">
+          <Link to="/" className="logo d-flex align-items-center flex-shrink-0 mb-0">
+            <h1 className="sitename mb-0">SwapSphere</h1>
+          </Link>
 
-        <i
-          className={`mobile-nav-toggle d-xl-none bi ${mobileOpen ? 'bi-x' : 'bi-list'}`}
-          role="button"
-          tabIndex={0}
-          aria-label="Toggle navigation"
-          onClick={() => setMobileOpen((v) => !v)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') setMobileOpen((v) => !v);
-          }}
-        />
-
-        <nav id="navmenu" className="navmenu">
-          <ul>
-            <li><Link to="/" onClick={() => setMobileOpen(false)}>Home</Link></li>
-            <li><Link to="/how-it-works" onClick={() => setMobileOpen(false)}>How it works</Link></li>
-
-            {isAuthenticated &&
-            <>
-                <li><Link to="/marketplace" onClick={() => setMobileOpen(false)}>Marketplace</Link></li>
-                <li><Link to="/create-listing" onClick={() => setMobileOpen(false)}>List an Item</Link></li>
-                <li><Link to="/wishlist" onClick={() => setMobileOpen(false)}>Wishlist</Link></li>
-                <li><Link to="/my-requests" onClick={() => setMobileOpen(false)}>Incoming Requests</Link></li>
-                <li><Link to="/transaction-history" onClick={() => setMobileOpen(false)}>History & Reviews</Link></li>
-                <li><Link to="/export" onClick={() => setMobileOpen(false)}>Export</Link></li>
-                <li style={{ position: 'relative' }}>
-                  <Link to="/negotiate/active" onClick={() => setMobileOpen(false)}>
-                    My Negotiations
-                    {unreadCount > 0 &&
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '8px',
-                        right: '-10px',
-                        background: 'red',
-                        color: 'white',
-                        borderRadius: '50%',
-                        padding: '2px 6px',
-                        fontSize: '12px'
-                      }}>
-                      {unreadCount}</span>
-                    }
-                  </Link>
-                </li>
-                {userProfile?.isAdmin &&
-                <li><Link to="/admin/disputes" onClick={() => setMobileOpen(false)}>Admin Disputes</Link></li>
-                }
-              </>
-            }
-
-            <li><a href="/#about" onClick={() => setMobileOpen(false)}>About</a></li>
-            <li><a href="/#services" onClick={() => setMobileOpen(false)}>Services</a></li>
-          </ul>
-        </nav>
-
-        {isAuthenticated && userProfile &&
-        <div className="d-none d-xl-flex align-items-center me-3 gap-2">
-            <span className="small text-muted">Signed in as</span>
-            <span className="fw-semibold">{userProfile.username}</span>
+          {isAuthenticated && userProfile &&
+          <div
+            className="d-none d-xl-flex align-items-center flex-wrap gap-2 ps-3 ps-xl-4 border-start border-secondary-subtle"
+            style={{ minHeight: '40px' }}
+          >
+            <span className="small text-muted text-nowrap">Signed in as</span>
+            <span className="fw-semibold text-nowrap">{userProfile.username}</span>
             <HobbyBadge niche={userProfile.hobbyNiche} />
           </div>
-        }
+          }
+        </div>
 
-        {!isAuthenticated ?
-        <Link className="btn-getstarted ms-3" to="/login" style={{ marginLeft: '25px' }}>
-            Start Swapping
-          </Link> :
-        <button className="btn-getstarted ms-3" onClick={handleLogout} style={{ marginLeft: '25px', border: 'none' }}>
-            Logout
-          </button>
-        }
+        <div className="header-actions d-flex align-items-center justify-content-end gap-1 gap-md-2 flex-grow-1 flex-shrink-1 min-w-0">
+          <i
+            className={`mobile-nav-toggle d-xl-none bi flex-shrink-0 ${mobileOpen ? 'bi-x' : 'bi-list'}`}
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle navigation"
+            onClick={() => setMobileOpen((v) => !v)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') setMobileOpen((v) => !v);
+            }}
+          />
+
+          <nav id="navmenu" className="navmenu header-nav flex-shrink-1 min-w-0">
+            <ul>
+              <li><Link to="/" onClick={() => setMobileOpen(false)}>Home</Link></li>
+              <li><Link to="/how-it-works" onClick={() => setMobileOpen(false)}>How it works</Link></li>
+              <li><Link to="/safety" onClick={() => setMobileOpen(false)}>Safety</Link></li>
+
+              {isAuthenticated &&
+              <>
+                  <li><Link to="/marketplace" onClick={() => setMobileOpen(false)}>Marketplace</Link></li>
+                  <li>
+                    <Link to="/create-listing" onClick={() => setMobileOpen(false)} title="Create a new listing">
+                      List
+                    </Link>
+                  </li>
+                  <li><Link to="/wishlist" onClick={() => setMobileOpen(false)}>Wishlist</Link></li>
+                  <li>
+                    <Link to="/my-requests" onClick={() => setMobileOpen(false)} title="Incoming swap requests">
+                      Requests
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/transaction-history" onClick={() => setMobileOpen(false)} title="Transaction history and reviews">
+                      History
+                    </Link>
+                  </li>
+                  <li><Link to="/export" onClick={() => setMobileOpen(false)}>Export</Link></li>
+                  <li style={{ position: 'relative' }}>
+                    <Link to="/negotiate/active" onClick={() => setMobileOpen(false)} title="My negotiations">
+                      Negotiate
+                      {unreadCount > 0 &&
+                      <span
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '-10px',
+                          background: 'red',
+                          color: 'white',
+                          borderRadius: '50%',
+                          padding: '2px 6px',
+                          fontSize: '12px'
+                        }}>
+                        {unreadCount}</span>
+                      }
+                    </Link>
+                  </li>
+                  {userProfile?.isAdmin &&
+                  <li><Link to="/admin/disputes" onClick={() => setMobileOpen(false)}>Admin Disputes</Link></li>
+                  }
+                </>
+              }
+
+              <li><a href="/#about" onClick={() => setMobileOpen(false)}>About</a></li>
+              <li><a href="/#services" onClick={() => setMobileOpen(false)}>Services</a></li>
+            </ul>
+          </nav>
+
+          <div className="header-cta flex-shrink-0">
+            {!isAuthenticated ?
+            <Link className="btn-getstarted" to="/login">
+                Start Swapping
+              </Link> :
+            <button className="btn-getstarted" type="button" onClick={handleLogout} style={{ border: 'none' }} title="Log out">
+                Logout
+              </button>
+            }
+          </div>
+        </div>
       </div>
     </header>);
 

@@ -32,7 +32,6 @@ router.put('/disputes/:id', auth, admin, async (req, res) => {
     dispute.resolvedBy = req.user.id;
     await dispute.save();
 
-    // Notify reporter.
     const io = req.app && req.app.get ? req.app.get('io') : null;
     if (io) {
       io.to(`user:${dispute.createdBy}`).emit('new_notification', {

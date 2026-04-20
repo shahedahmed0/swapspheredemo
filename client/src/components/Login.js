@@ -66,7 +66,7 @@ const Login = () => {
                       required />
                     
                   </div>
-                  <button type="submit" className="btn btn-primary w-100 py-2 fw-bold" style={{ backgroundColor: '#2c3e50', border: 'none', borderRadius: '8px' }}>
+                  <button type="submit" className="btn btn-success w-100 py-2 fw-bold rounded-3">
                     Sign In
                   </button>
                 </form>

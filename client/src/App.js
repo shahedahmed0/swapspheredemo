@@ -24,6 +24,7 @@ import ProposeSwapPage from './components/swaps/ProposeSwapPage';
 import AdminDisputesPage from './components/admin/AdminDisputesPage.jsx';
 import ExportPage from './components/ExportPage.jsx';
 import HowItWorks from './components/HowItWorks.jsx';
+import Safety from './components/Safety';
 
 const LayoutWrapper = ({ children }) => {
   const location = useLocation();
@@ -79,7 +80,7 @@ function App() {
                 <Hero />
                 <FeaturedServices />
                 <About />
-                <Stats userProfile={userProfile} />
+                <Stats />
                 <Services />
                 <section className="section">
                   <div className="container">
@@ -101,6 +102,7 @@ function App() {
               element={<ItemGallery isAuthenticated={isAuthenticated} userId={dbUserId} />}
             />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/safety" element={<Safety />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
@@ -128,7 +130,7 @@ function App() {
             
             <Route
               path="/transaction-history"
-              element={isAuthenticated ? <TransactionHistory userId={dbUserId} /> : <Navigate to="/login" />} />
+              element={isAuthenticated ? <TransactionHistory userId={dbUserId} userProfile={userProfile} /> : <Navigate to="/login" />} />
 
             <Route
               path="/export"

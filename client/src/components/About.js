@@ -38,16 +38,29 @@ const About = () => {
           <div className="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
             <div className="row gy-4">
               <div className="col-lg-6">
-                <div className="placeholder-image">Image Placeholder</div>
+                <img
+                  src={require('./uno-uno-reverse-card.gif')}
+                  alt="uno reverse card"
+                  className="img-fluid rounded shadow-sm w-100"
+                />
               </div>
               <div className="col-lg-6">
                 <div className="row gy-4">
                   <div className="col-lg-12">
-                    <div className="placeholder-image">Image Placeholder</div>
+                    <img
+                      src={require('./360_F_291038780_pUTV5LU9SHrDNR4ddg5GsqNkgRJzOLh4.jpg')}
+                      alt="swapping items"
+                      className="img-fluid rounded shadow-sm w-100 mb-2"
+                    />
                   </div>
                   <div className="col-lg-12">
-                    <div className="placeholder-image">Image Placeholder</div>
+                    <img
+                      src={require('./barter-exchange-book-cd-10801649.jpg')}
+                      alt="swapping items"
+                      className="img-fluid rounded shadow-sm w-100"
+                    />
                   </div>
+          
                 </div>
               </div>
             </div>

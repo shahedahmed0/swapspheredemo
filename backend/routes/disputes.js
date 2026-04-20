@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 const Dispute = require('../models/Dispute');
 const User = require('../models/User');
 
-// Create a dispute / report
 router.post('/', auth, async (req, res) => {
   try {
     const { swapId, itemId, reason, details } = req.body || {};
@@ -24,7 +23,6 @@ router.post('/', auth, async (req, res) => {
     });
     await dispute.save();
 
-    // Notify admins in realtime.
     const io = req.app && req.app.get ? req.app.get('io') : null;
     if (io) {
       const admins = await User.find({ isAdmin: true }).select('_id');

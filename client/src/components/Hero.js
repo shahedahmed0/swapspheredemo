@@ -10,7 +10,7 @@ const Hero = () => {
           <div className="carousel-container">
             <h2>Your Hobby, Reimagined</h2>
             <p>Welcome to SwapSphere, the premier destination for hobbyists to trade, grow, and share their passions. Give your cherished items a new home and find your next treasure.</p>
-            <a href="create-listing" className="btn-get-started">Start Swapping</a>
+            <a href="/create-listing" className="btn-get-started">Start Swapping</a>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ const Hero = () => {
           <div className="carousel-container">
             <h2>Built on Community Trust</h2>
             <p>Trade with confidence. Our reputation-based system ensures that every swap is backed by a community of verified, passionate collectors.</p>
-            <a href="#safety" className="btn-get-started">Safety First</a>
+            <a href="/safety" className="btn-get-started">Safety First</a>
           </div>
         </div>
 

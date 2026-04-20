@@ -7,8 +7,6 @@ const ExportPage = () => {
   const [scope, setScope] = useState('private');
 
   const openDownload = (path) => {
-    // Token is required; simplest UX is to open a new tab with token header not possible.
-    // So we fallback to a fetch->blob download approach.
     fetch(`${API_BASE_URL}${path}`, {
       headers: { 'x-auth-token': token }
     })

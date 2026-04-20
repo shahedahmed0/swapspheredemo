@@ -1,7 +1,6 @@
 import React from 'react';
 
 const ConditionChecklist = ({ category, selectedChecks, setSelectedChecks }) => {
-  // Define custom criteria for different hobbies
   const criteriaMap = {
     'Cards': ['Centered', 'No Whitening on Edges', 'Sharp Corners', 'Surface Scratch-Free'],
     'Coins': ['Uncirculated', 'No Scratches', 'Original Luster', 'Clear Date/Mint Mark'],
@@ -24,19 +23,24 @@ const ConditionChecklist = ({ category, selectedChecks, setSelectedChecks }) => 
   if (!category) return null;
 
   return (
-    <div className="mt-4 p-4 border rounded-md bg-gray-50">
-      <h4 className="text-sm font-semibold mb-2">Item Condition Checklist for {category}</h4>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div className="mt-2 p-4 rounded-4 border bg-light">
+      <h4 className="h6 fw-semibold mb-3 text-secondary">Condition checklist · {category}</h4>
+      <div className="row g-2">
         {currentCriteria.map((criterion, index) => (
-          <label key={index} className="flex items-center space-x-2 text-sm text-gray-700">
-            <input
-              type="checkbox"
-              className="rounded text-blue-600 focus:ring-blue-500"
-              checked={selectedChecks.includes(criterion)}
-              onChange={() => handleCheckboxChange(criterion)}
-            />
-            <span>{criterion}</span>
-          </label>
+          <div key={index} className="col-md-6">
+            <div className="form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={`check-${category}-${index}`}
+                checked={selectedChecks.includes(criterion)}
+                onChange={() => handleCheckboxChange(criterion)}
+              />
+              <label className="form-check-label small" htmlFor={`check-${category}-${index}`}>
+                {criterion}
+              </label>
+            </div>
+          </div>
         ))}
       </div>
     </div>

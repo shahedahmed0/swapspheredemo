@@ -1,7 +1,6 @@
 import React from 'react';
 
 const HobbyBadge = ({ niche }) => {
-  // Uses Bootstrap-friendly badge styles (no Tailwind dependency).
   const badgeStyles = {
     'Trading Cards': { icon: '🃏', className: 'text-bg-primary' },
     'Comics': { icon: '🦸‍♂️', className: 'text-bg-danger' },
